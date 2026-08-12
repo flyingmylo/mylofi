@@ -5,20 +5,21 @@ export const metadata: Metadata = { title: '关于' }
 
 export default function AboutPage() {
   return (
-    <div className="prose prose-neutral max-w-none dark:prose-invert">
+    <div className="prose prose-neutral max-w-none dark:prose-invert prose-a:text-indigo-600 dark:prose-a:text-indigo-400">
       <h1>关于</h1>
+      <blockquote>
+        <p>A CHAMPAGNE SUPERNOVA IN THE SKY :D</p>
+      </blockquote>
       <p>
-        这里是 {site.name} —— 一个用 Next.js 自己搭建、部署在 Cloudflare Pages
-        上的静态博客。
+        我是 {site.author}。{site.description}
       </p>
-      <p>在这里介绍一下你自己：你是谁、在做什么、为什么写博客。</p>
-      <h2>本站技术栈</h2>
+      <p>在这里写技术，也写生活。</p>
+      <h2>本站</h2>
       <ul>
-        <li>框架：Next.js（App Router，静态导出）+ React + TypeScript</li>
-        <li>样式：Tailwind CSS v4 + Typography 插件</li>
-        <li>搜索：Pagefind（构建时索引，纯静态）</li>
-        <li>评论：Giscus（GitHub Discussions）</li>
-        <li>托管：Cloudflare Pages（全球 CDN）</li>
+        <li>Next.js（静态导出）+ React + TypeScript</li>
+        <li>Tailwind CSS，自己设计的主题</li>
+        <li>Pagefind 全文搜索 · Giscus 评论</li>
+        <li>托管于 Cloudflare Pages</li>
       </ul>
     </div>
   )

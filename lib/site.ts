@@ -1,10 +1,9 @@
-// 站点全局配置 —— 部署前请修改 url 和 giscus
+// 站点全局配置
 export const site = {
-  name: 'My Blog',
-  title: 'My Blog',
-  description: '一个用 Next.js 自建、部署在 Cloudflare Pages 上的博客',
-  // TODO: 部署前改成你的真实域名，例如 'https://blog.yourdomain.com'
-  url: 'https://blog.example.com',
+  name: 'mylofi',
+  title: 'mylofi',
+  description: "I'm Mylo, this is my blog, a tech & life blog.",
+  url: 'https://mylofi.fun',
   author: 'Mylo',
   locale: 'zh-CN',
   // Giscus 评论（基于 GitHub Discussions）

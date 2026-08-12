@@ -29,10 +29,12 @@ function parseFile(filename: string): PostMeta & { content: string } {
   const slug = filename.replace(/\.mdx?$/, '')
   const raw = fs.readFileSync(path.join(postsDir, filename), 'utf-8')
   const { data, content } = matter(raw)
+  // 从原始 frontmatter 文本提取日期，避免 YAML 解析成 Date 后时区转换导致日期偏移
+  const dateMatch = raw.match(/^date:\s*['"]?(\d{4}-\d{2}-\d{2})/m)
   return {
     slug,
     title: data.title ?? slug,
-    date: data.date ? new Date(data.date).toISOString().slice(0, 10) : '',
+    date: dateMatch ? dateMatch[1] : '',
     summary: data.summary ?? data.description ?? '',
     tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
     draft: Boolean(data.draft),

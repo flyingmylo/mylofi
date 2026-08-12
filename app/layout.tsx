@@ -23,11 +23,11 @@ export default function RootLayout({
   return (
     <html lang={site.locale} suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100`}
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col bg-neutral-50 text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100`}
       >
         <ThemeProvider>
           <SiteHeader />
-          <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10">
+          <main className="mx-auto w-full max-w-2xl flex-1 px-6 pt-14 pb-20">
             {children}
           </main>
           <SiteFooter />
