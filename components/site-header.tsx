@@ -12,22 +12,21 @@ const nav = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-line/70 bg-paper/70 backdrop-blur-xl">
-      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-6">
-        {/* 终端风 wordmark：mylofi + 闪烁方块光标 */}
+    <header className="sticky top-0 z-40 bg-paper/80 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 w-full max-w-2xl items-center justify-between px-6">
         <Link
           href="/"
-          className="font-mono text-base font-bold tracking-tight transition-colors hover:text-accent"
+          className="font-mono text-sm font-bold tracking-tight transition-colors hover:text-accent"
         >
           {site.name}
-          <span className="cursor-blink ml-1 text-accent">█</span>
+          <span className="cursor-blink ml-0.5 text-accent">█</span>
         </Link>
         <nav className="flex items-center gap-1">
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="rounded px-2.5 py-1.5 font-mono text-sm text-muted transition-colors hover:text-accent"
+              className="rounded px-2.5 py-1.5 font-mono text-xs text-muted transition-colors hover:text-ink"
             >
               {item.label}
             </Link>
@@ -35,9 +34,9 @@ export function SiteHeader() {
           <a
             href="/feed.xml"
             aria-label="RSS 订阅"
-            className="rounded p-2 text-muted transition-colors hover:text-accent"
+            className="rounded p-2 text-muted transition-colors hover:text-ink"
           >
-            <Rss size={16} />
+            <Rss size={14} />
           </a>
           <ThemeToggle />
         </nav>

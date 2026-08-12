@@ -4,24 +4,24 @@
 /* 用 .dark class 控制深色模式（next-themes） */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ===== 低饱和暖色主题令牌 ===== */
+/* ===== 主题令牌：浅暖白 + 克制的赭色点缀 ===== */
 :root {
-  --paper: #f5efe3;   /* 米色纸底 */
-  --ink: #35302a;     /* 暖黑 */
-  --muted: #8d8375;   /* 灰褐 */
-  --accent: #b0512c;  /* 铁锈红 */
-  --line: #ddd2bd;    /* 暖色分隔线 */
-  --code-bg: #f8f2e2; /* 代码块底色（solarized 米黄） */
+  --paper: #faf7f1;   /* 极浅的暖白 */
+  --ink: #403a32;     /* 柔和的暖黑 */
+  --muted: #a69c8b;   /* 浅灰褐 */
+  --accent: #b5674a;  /* 淡赭石（只用于极小面积点缀） */
+  --line: #eae3d3;    /* 发丝线 */
+  --code-bg: #f5efe1;
   color-scheme: light;
 }
 
 .dark {
-  --paper: #201c18;   /* 暖棕黑 */
-  --ink: #e6ddcb;     /* 米白 */
-  --muted: #93887a;
-  --accent: #d98d63;  /* 暖杏 */
-  --line: #3a342c;
-  --code-bg: #28231e;
+  --paper: #211e1a;
+  --ink: #ddd5c4;
+  --muted: #8d8377;
+  --accent: #d09b7c;
+  --line: #37322a;
+  --code-bg: #2a2620;
   color-scheme: dark;
 }
 
@@ -45,23 +45,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* 复古纸张噪点纹理 */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  pointer-events: none;
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
-}
-
 ::selection {
-  background: var(--accent);
-  color: var(--paper);
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
-/* ===== 正文排版（prose）暖色化 ===== */
+/* ===== 正文排版（prose） ===== */
 .prose {
   --tw-prose-body: var(--ink);
   --tw-prose-headings: var(--ink);
@@ -72,20 +60,20 @@ body::before {
   --tw-prose-bullets: var(--line);
   --tw-prose-hr: var(--line);
   --tw-prose-quotes: var(--ink);
-  --tw-prose-quote-borders: var(--accent);
+  --tw-prose-quote-borders: var(--line);
   --tw-prose-captions: var(--muted);
   --tw-prose-code: var(--ink);
   --tw-prose-th-borders: var(--line);
   --tw-prose-td-borders: var(--line);
 }
 
-/* 标题用衬线，复古感 */
 .prose :where(h1, h2, h3, h4) {
   font-family: var(--font-serif);
+  font-weight: 600;
   scroll-margin-top: 5rem;
 }
 
-/* 闪烁方块光标（终端怀旧） */
+/* 闪烁方块光标 */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
@@ -94,7 +82,7 @@ body::before {
   animation: blink 1.06s steps(1) infinite;
 }
 
-/* ===== Shiki 双主题代码高亮（solarized / gruvbox 复古配色） ===== */
+/* ===== Shiki 双主题代码高亮 ===== */
 .dark .shiki,
 .dark .shiki span {
   color: var(--shiki-dark) !important;

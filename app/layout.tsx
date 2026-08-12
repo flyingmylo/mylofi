@@ -27,19 +27,8 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <SiteHeader />
-          {/* 非对称布局：内容栏偏左，右侧留白 + 竖排装饰文字 */}
-          <main className="mx-auto w-full max-w-5xl flex-1 px-6 pt-14 pb-24 sm:pt-20">
-            <div className="flex gap-12">
-              <div className="w-full max-w-xl min-w-0">{children}</div>
-              <aside
-                aria-hidden
-                className="hidden flex-1 items-start justify-end pt-1 lg:flex"
-              >
-                <span className="font-mono text-[10px] tracking-[0.35em] text-muted uppercase [writing-mode:vertical-rl]">
-                  est. 2019 · mylofi.fun · a tech &amp; life blog · still writing
-                </span>
-              </aside>
-            </div>
+          <main className="mx-auto w-full max-w-2xl flex-1 px-6 pt-16 pb-24 sm:pt-24">
+            {children}
           </main>
           <SiteFooter />
         </ThemeProvider>

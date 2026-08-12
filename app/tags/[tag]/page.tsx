@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getAllTags, getPostsByTag } from '@/lib/posts'
 import { PostCard } from '@/components/post-card'
@@ -22,16 +23,21 @@ export default async function TagPage({ params }: Params) {
 
   return (
     <div>
-      <h1 className="font-mono text-2xl font-bold tracking-tight">
-        <span className="text-accent">#</span>
+      <p className="font-mono text-[11px] text-muted">
+        <Link href="/tags/" className="transition-colors hover:text-accent">
+          标签
+        </Link>
+        <span className="mx-2">/</span>#{tag}
+      </p>
+      <h1 className="mt-3 font-serif text-3xl font-semibold tracking-tight">
         {tag}
-        <span className="ml-3 text-sm font-normal text-muted">
+        <span className="ml-3 align-middle font-mono text-xs font-normal text-muted">
           {posts.length} 篇
         </span>
       </h1>
-      <div className="mt-8 flex flex-col">
-        {posts.map((post, i) => (
-          <PostCard key={post.slug} post={post} offset={i % 2 === 1} />
+      <div className="mt-8 flex flex-col divide-y divide-line/70 border-y border-line/70">
+        {posts.map((post) => (
+          <PostCard key={post.slug} post={post} />
         ))}
       </div>
     </div>

@@ -29,41 +29,38 @@ export default async function PostPage({ params }: Params) {
   return (
     <div>
       <article data-pagefind-body>
-        <header className="mb-12">
-          <p className="font-mono text-xs text-muted">
-            [{post.date}] · {post.readingTime}
-          </p>
-          <h1 className="mt-4 font-serif text-3xl leading-snug font-bold tracking-tight sm:text-4xl">
+        <header className="mb-14">
+          <h1 className="font-serif text-3xl leading-snug font-semibold tracking-tight sm:text-[2.5rem] sm:leading-tight">
             {post.title}
           </h1>
-          {post.tags.length > 0 && (
-            <div className="mt-5 flex flex-wrap gap-x-4 gap-y-1.5 border-t border-dashed border-line pt-4 font-mono text-xs">
-              {post.tags.map((tag) => (
-                <Link
-                  key={tag}
-                  href={`/tags/${encodeURIComponent(tag)}/`}
-                  className="text-muted transition-colors hover:text-accent"
-                >
-                  #{tag}
-                </Link>
-              ))}
-            </div>
-          )}
+          <div className="mt-6 flex flex-wrap items-baseline gap-x-5 gap-y-1.5 font-mono text-[11px] text-muted">
+            <time>{post.date.replace(/-/g, '.')}</time>
+            <span>{post.readingTime}</span>
+            {post.tags.map((tag) => (
+              <Link
+                key={tag}
+                href={`/tags/${encodeURIComponent(tag)}/`}
+                className="transition-colors hover:text-accent"
+              >
+                #{tag}
+              </Link>
+            ))}
+          </div>
         </header>
 
         <div
-          className="prose max-w-none prose-headings:tracking-tight prose-a:decoration-accent/40 prose-a:underline-offset-4 hover:prose-a:decoration-accent prose-img:rounded-md prose-img:border prose-img:border-line prose-blockquote:not-italic prose-hr:border-dashed"
+          className="prose max-w-none prose-headings:tracking-tight prose-a:underline-offset-4 hover:prose-a:decoration-accent prose-img:rounded-md prose-blockquote:not-italic prose-blockquote:font-serif prose-hr:border-line"
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
       </article>
 
-      <div className="mt-16 border-t border-dashed border-line pt-10">
+      <div className="mt-20 border-t border-line/70 pt-10">
         <GiscusComments />
       </div>
 
-      <div className="mt-12 font-mono text-sm">
+      <div className="mt-12 font-mono text-xs">
         <Link href="/" className="text-muted transition-colors hover:text-accent">
-          ← cd ..
+          ← 返回索引
         </Link>
       </div>
     </div>

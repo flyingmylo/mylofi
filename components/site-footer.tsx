@@ -2,12 +2,12 @@ import { site } from '@/lib/site'
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-dashed border-line">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-1.5 px-6 py-8 font-mono text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
+    <footer>
+      <div className="mx-auto flex w-full max-w-2xl items-center justify-between px-6 py-10 font-mono text-[11px] text-muted">
         <span>
-          © 2019–{new Date().getFullYear()} {site.author} · {site.name}.fun
+          © 2019–{new Date().getFullYear()} {site.name}.fun
         </span>
-        <span>next.js × cloudflare pages · solarized inside</span>
+        <span>next.js × cloudflare pages</span>
       </div>
     </footer>
   )
