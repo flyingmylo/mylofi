@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Blog
 
-## Getting Started
+用 Next.js 自建、部署在 Cloudflare Pages 上的静态博客。
 
-First, run the development server:
+## 技术栈
+
+- **框架**：Next.js 15（App Router，`output: 'export'` 纯静态导出）+ React 19 + TypeScript
+- **样式**：Tailwind CSS v4 + Typography 插件，深色模式由 next-themes 驱动
+- **内容**：`content/posts/*.md`（gray-matter + remark/rehype 管线，Shiki 双主题代码高亮）
+- **搜索**：Pagefind（构建时对 `out/` 建索引，纯浏览器端搜索）
+- **评论**：Giscus（GitHub Discussions），在 `lib/site.ts` 填配置后启用
+- **SEO**：Metadata API + 自动 sitemap.xml / robots.txt / feed.xml（RSS）
+
+## 日常写作
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 1. 新建文章（frontmatter 字段：title / date / summary / tags / draft）
+vim content/posts/my-new-post.md
+
+# 2. 本地预览
+npm run dev          # http://localhost:3000
+
+# 3. 发布
+git add . && git commit -m "new post" && git push
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> 搜索索引在 `npm run build` 时生成，开发环境下搜索页不可用属正常现象。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 构建与部署
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build        # 静态导出到 out/ + 生成 Pagefind 索引
+npm run preview      # 本地预览构建产物
+```
 
-## Learn More
+### Cloudflare Pages 部署
 
-To learn more about Next.js, take a look at the following resources:
+1. 把仓库 push 到 GitHub
+2. Cloudflare Dashboard → Pages → 连接 Git 仓库
+3. 构建配置：
+   - Framework preset: **Next.js (Static HTML Export)** 或 None
+   - Build command: `npm run build`
+   - Output directory: `out`
+4. 部署完成后：Pages 项目 → **Custom domains** → 绑定你的域名
+   （域名 DNS 需托管在 Cloudflare，自动签发 SSL）
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 部署前检查清单
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [ ] `lib/site.ts`：修改 `url` 为真实域名、`name` / `description` / `author`
+- [ ] `lib/site.ts`：填写 Giscus 配置（向导：https://giscus.app/zh-CN）
+- [ ] `app/about/page.tsx`：写自己的介绍
+- [ ] 旧站 URL 若有变化，在 `public/_redirects` 配 301（Hugo 旧链接 → 新链接）
 
-## Deploy on Vercel
+## 从 Hugo 迁移
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. 把 Hugo `content/posts/*.md` 拷入 `content/posts/`
+2. frontmatter 字段映射：`description` → `summary`（其余基本一致）
+3. 替换 Hugo shortcode 为标准 Markdown
+4. Hugo `static/` → `public/`
