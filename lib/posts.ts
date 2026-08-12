@@ -86,7 +86,7 @@ async function renderMarkdown(markdown: string): Promise<string> {
     .use(remarkGfm)
     .use(remarkRehype)
     .use(rehypePrettyCode, {
-      theme: { light: 'github-light-default', dark: 'github-dark-default' },
+      theme: { light: 'solarized-light', dark: 'gruvbox-dark-medium' },
       keepBackground: false,
     })
     .use(rehypeSlug)

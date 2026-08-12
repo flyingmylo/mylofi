@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { formatDate, getAllPosts, getPost } from '@/lib/posts'
+import { getAllPosts, getPost } from '@/lib/posts'
 import { GiscusComments } from '@/components/giscus-comments'
 
 type Params = { params: Promise<{ slug: string }> }
@@ -30,39 +30,39 @@ export default async function PostPage({ params }: Params) {
     <div>
       <article data-pagefind-body>
         <header className="mb-12">
-          <h1 className="text-3xl leading-snug font-bold tracking-tight sm:text-4xl">
+          <p className="font-mono text-xs text-muted">
+            [{post.date}] · {post.readingTime}
+          </p>
+          <h1 className="mt-4 font-serif text-3xl leading-snug font-bold tracking-tight sm:text-4xl">
             {post.title}
           </h1>
-          <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs text-neutral-400 dark:text-neutral-500">
-            <time>{formatDate(post.date)}</time>
-            <span>{post.readingTime}</span>
-            {post.tags.map((tag) => (
-              <Link
-                key={tag}
-                href={`/tags/${encodeURIComponent(tag)}/`}
-                className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
-              >
-                #{tag}
-              </Link>
-            ))}
-          </div>
+          {post.tags.length > 0 && (
+            <div className="mt-5 flex flex-wrap gap-x-4 gap-y-1.5 border-t border-dashed border-line pt-4 font-mono text-xs">
+              {post.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/tags/${encodeURIComponent(tag)}/`}
+                  className="text-muted transition-colors hover:text-accent"
+                >
+                  #{tag}
+                </Link>
+              ))}
+            </div>
+          )}
         </header>
 
         <div
-          className="prose prose-neutral max-w-none dark:prose-invert prose-headings:tracking-tight prose-a:text-indigo-600 prose-a:decoration-indigo-300 prose-a:underline-offset-4 dark:prose-a:text-indigo-400 dark:prose-a:decoration-indigo-500/50 prose-img:rounded-xl prose-pre:border prose-pre:border-neutral-200 prose-pre:bg-transparent prose-pre:p-0 dark:prose-pre:border-neutral-800 prose-blockquote:border-l-indigo-400 prose-blockquote:not-italic"
+          className="prose max-w-none prose-headings:tracking-tight prose-a:decoration-accent/40 prose-a:underline-offset-4 hover:prose-a:decoration-accent prose-img:rounded-md prose-img:border prose-img:border-line prose-blockquote:not-italic prose-hr:border-dashed"
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
       </article>
 
-      <div className="mt-16 border-t border-neutral-200/70 pt-10 dark:border-neutral-800/70">
+      <div className="mt-16 border-t border-dashed border-line pt-10">
         <GiscusComments />
       </div>
 
       <div className="mt-12 font-mono text-sm">
-        <Link
-          href="/"
-          className="text-neutral-400 transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
-        >
+        <Link href="/" className="text-muted transition-colors hover:text-accent">
           ← cd ..
         </Link>
       </div>

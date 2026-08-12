@@ -15,9 +15,9 @@ export function ThemeToggle() {
       type="button"
       aria-label="切换深色模式"
       onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-      className="rounded-md p-2 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100"
+      className="rounded p-2 text-muted transition-colors hover:text-accent"
     >
-      {mounted && resolvedTheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+      {mounted && resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
     </button>
   )
 }

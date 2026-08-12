@@ -9,22 +9,22 @@ export default function TagsPage() {
 
   return (
     <div>
-      <h1 className="mb-10 text-3xl font-bold tracking-tight">标签</h1>
+      <p className="font-mono text-xs text-accent">{"// tags"}</p>
+      <h1 className="mt-4 font-serif text-4xl font-bold tracking-tight">标签</h1>
       {tags.length === 0 ? (
-        <p className="text-neutral-500">还没有标签。</p>
+        <p className="mt-8 text-muted">还没有标签。</p>
       ) : (
-        <div className="flex flex-wrap gap-x-5 gap-y-3">
+        /* 交错位移 + 毛玻璃 chip，打破呆板网格 */
+        <div className="mt-10 flex flex-wrap gap-x-4 gap-y-4 [&>a:nth-child(3n+2)]:translate-y-2 [&>a:nth-child(4n)]:-translate-y-1">
           {tags.map(({ tag, count }) => (
             <Link
               key={tag}
               href={`/tags/${encodeURIComponent(tag)}/`}
-              className="group font-mono text-sm text-neutral-500 transition-colors hover:text-indigo-600 dark:text-neutral-400 dark:hover:text-indigo-400"
+              className="rounded-lg border border-line bg-paper/50 px-4 py-2 font-mono text-sm text-muted shadow-sm backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-accent hover:text-accent"
             >
-              <span className="text-indigo-600/60 dark:text-indigo-400/60">#</span>
+              <span className="text-accent/70">#</span>
               {tag}
-              <span className="ml-1 text-xs text-neutral-300 dark:text-neutral-600">
-                {count}
-              </span>
+              <span className="ml-1.5 text-xs opacity-60">{count}</span>
             </Link>
           ))}
         </div>

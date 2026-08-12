@@ -1,23 +1,31 @@
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
 import type { PostMeta } from '@/lib/posts'
 
-export function PostCard({ post }: { post: PostMeta }) {
+/**
+ * 文章卡片。
+ * offset=true 时（偶数位）向右缩进 + 左侧虚线，制造非对称的节奏感。
+ */
+export function PostCard({ post, offset = false }: { post: PostMeta; offset?: boolean }) {
   return (
-    <article className="group py-6 first:pt-4">
+    <article
+      className={`group py-7 ${
+        offset ? 'sm:ml-16 sm:border-l sm:border-dashed sm:border-line sm:pl-8' : ''
+      }`}
+    >
       <Link href={`/posts/${post.slug}/`} className="block">
-        <time className="font-mono text-xs text-neutral-400 tabular-nums dark:text-neutral-500">
-          {post.date}
+        <time className="font-mono text-xs text-muted tabular-nums">
+          [{post.date}]
         </time>
-        <h3 className="mt-1.5 flex items-center gap-2 text-lg font-semibold tracking-tight transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
-          {post.title}
-          <ArrowRight
-            size={16}
-            className="shrink-0 -translate-x-1 text-indigo-600 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100 dark:text-indigo-400"
-          />
+        <h3 className="mt-2 font-serif text-xl leading-snug font-bold tracking-tight">
+          <span className="decoration-accent/60 decoration-2 underline-offset-4 transition-colors group-hover:text-accent group-hover:underline">
+            {post.title}
+          </span>
+          <span className="ml-2 inline-block font-mono text-sm text-accent opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">
+            →
+          </span>
         </h3>
         {post.summary && (
-          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+          <p className="mt-2.5 line-clamp-2 text-sm leading-relaxed text-muted">
             {post.summary}
           </p>
         )}
@@ -28,7 +36,7 @@ export function PostCard({ post }: { post: PostMeta }) {
             <Link
               key={tag}
               href={`/tags/${encodeURIComponent(tag)}/`}
-              className="font-mono text-xs text-neutral-400 transition-colors hover:text-indigo-600 dark:text-neutral-500 dark:hover:text-indigo-400"
+              className="font-mono text-xs text-muted transition-colors hover:text-accent"
             >
               #{tag}
             </Link>

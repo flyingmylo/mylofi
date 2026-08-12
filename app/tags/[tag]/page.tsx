@@ -22,16 +22,16 @@ export default async function TagPage({ params }: Params) {
 
   return (
     <div>
-      <h1 className="mb-8 font-mono text-2xl font-bold tracking-tight">
-        <span className="text-indigo-600 dark:text-indigo-400">#</span>
+      <h1 className="font-mono text-2xl font-bold tracking-tight">
+        <span className="text-accent">#</span>
         {tag}
-        <span className="ml-3 text-sm font-normal text-neutral-400">
+        <span className="ml-3 text-sm font-normal text-muted">
           {posts.length} 篇
         </span>
       </h1>
-      <div className="flex flex-col divide-y divide-neutral-200/70 dark:divide-neutral-800/70">
-        {posts.map((post) => (
-          <PostCard key={post.slug} post={post} />
+      <div className="mt-8 flex flex-col">
+        {posts.map((post, i) => (
+          <PostCard key={post.slug} post={post} offset={i % 2 === 1} />
         ))}
       </div>
     </div>

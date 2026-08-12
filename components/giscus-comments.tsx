@@ -38,7 +38,7 @@ export function GiscusComments() {
 
   if (!configured) {
     return (
-      <p className="rounded-lg border border-dashed border-neutral-300 p-4 text-sm text-neutral-500 dark:border-neutral-700 dark:text-neutral-400">
+      <p className="rounded-lg border border-dashed border-line bg-paper/50 p-4 font-mono text-xs text-muted backdrop-blur-md">
         评论功能未启用：在 <code>lib/site.ts</code> 中填写 Giscus 配置即可
         （配置向导见 giscus.app）。
       </p>
