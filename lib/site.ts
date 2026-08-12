@@ -1,6 +1,6 @@
 // 站点全局配置
 export const site = {
-  name: 'mylofi',
+  name: 'Mylofi',
   title: 'mylofi',
   description: "I'm Mylo, this is my blog, a tech & life blog.",
   url: 'https://mylofi.fun',

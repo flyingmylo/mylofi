@@ -19,7 +19,6 @@ export function SiteHeader() {
           className="font-mono text-sm font-bold tracking-tight transition-colors hover:text-accent"
         >
           {site.name}
-          <span className="cursor-blink ml-0.5 text-accent">█</span>
         </Link>
         <nav className="flex items-center gap-1">
           {nav.map((item) => (

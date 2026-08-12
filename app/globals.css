@@ -6,10 +6,10 @@
 
 /* ===== 主题令牌：浅暖白 + 克制的赭色点缀 ===== */
 :root {
-  --paper: #faf7f1;   /* 极浅的暖白 */
+  --paper: #fffdff;   /* 极浅的暖白 */
   --ink: #403a32;     /* 柔和的暖黑 */
   --muted: #a69c8b;   /* 浅灰褐 */
-  --accent: #b5674a;  /* 淡赭石（只用于极小面积点缀） */
+  --accent: #5f7355;  /* 灰绿（只用于极小面积点缀） */
   --line: #eae3d3;    /* 发丝线 */
   --code-bg: #f5efe1;
   color-scheme: light;
@@ -19,7 +19,7 @@
   --paper: #211e1a;
   --ink: #ddd5c4;
   --muted: #8d8377;
-  --accent: #d09b7c;
+  --accent: #a3b899;
   --line: #37322a;
   --code-bg: #2a2620;
   color-scheme: dark;
