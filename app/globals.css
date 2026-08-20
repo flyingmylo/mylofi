@@ -11,7 +11,7 @@
   --muted: #a69c8b;   /* 浅灰褐 */
   --accent: #5f7355;  /* 灰绿（只用于极小面积点缀） */
   --line: #eae3d3;    /* 发丝线 */
-  --code-bg: #f5efe1;
+  --code-bg: #fcfaf5;
   color-scheme: light;
 }
 
@@ -73,19 +73,30 @@ body {
   scroll-margin-top: 5rem;
 }
 
-/* ===== Shiki 双主题代码高亮 ===== */
-.dark .shiki,
-.dark .shiki span {
-  color: var(--shiki-dark) !important;
-  background-color: var(--shiki-dark-bg) !important;
+/* ===== Shiki 双主题代码高亮 =====
+   rehype-pretty-code 的 span 携带 --shiki-light/--shiki-dark 自定义属性，
+   按当前主题取色；未挂属性的行级 span 经继承回落到 pre 的 ink */
+[data-rehype-pretty-code-figure] span {
+  color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style, normal);
+  font-weight: var(--shiki-light-font-weight, normal);
 }
 
-[data-rehype-pretty-code-figure] pre {
+.dark [data-rehype-pretty-code-figure] span {
+  color: var(--shiki-dark);
+  font-style: var(--shiki-dark-font-style, normal);
+  font-weight: var(--shiki-dark-font-weight, normal);
+}
+
+/* 覆盖所有代码块（含无语言标注、未经 Shiki 处理的裸围栏），
+   否则会落到 Typography 插件的深色默认样式 */
+.prose pre {
   overflow-x: auto;
   border-radius: 0.5rem;
   padding: 1rem 1.25rem;
   font-size: 0.875rem;
   line-height: 1.75;
+  color: var(--ink);
   background-color: var(--code-bg);
   border: 1px solid var(--line);
 }
