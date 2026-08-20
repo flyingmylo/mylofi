@@ -73,15 +73,6 @@ body {
   scroll-margin-top: 5rem;
 }
 
-/* 闪烁方块光标 */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-.cursor-blink {
-  animation: blink 1.06s steps(1) infinite;
-}
-
 /* ===== Shiki 双主题代码高亮 ===== */
 .dark .shiki,
 .dark .shiki span {

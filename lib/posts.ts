@@ -95,12 +95,3 @@ async function renderMarkdown(markdown: string): Promise<string> {
     .process(markdown)
   return String(file)
 }
-
-export function formatDate(date: string): string {
-  if (!date) return ''
-  return new Date(date).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
