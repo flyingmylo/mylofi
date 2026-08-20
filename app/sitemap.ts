@@ -18,6 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${site.url}/` },
     { url: `${site.url}/tags/` },
     { url: `${site.url}/about/` },
+    { url: `${site.url}/playground/` },
+    { url: `${site.url}/playground/englishpod/` },
     ...posts,
     ...tags,
   ]

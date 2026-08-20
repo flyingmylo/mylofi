@@ -26,6 +26,15 @@ git add . && git commit -m "new post" && git push
 
 > 搜索索引在 `npm run build` 时生成，开发环境下搜索页不可用属正常现象。
 
+## 游乐场（/playground）
+
+自用小工具集，工具在 `lib/playground.ts` 登记，路由挂在 `app/playground/` 下。
+
+- **Englishpod**（`/playground/englishpod/`）：EnglishPod 播客 365 期档案，
+  对话与词汇要点在 `content/englishpod/md/`（构建时由 `lib/englishpod.ts` 解析），
+  播客全文 txt 在 `public/englishpod/txt/`（页面按需 fetch，不进包）。
+  365 期按 50 期一组分页浏览（`/playground/englishpod/g/[2-8]/`）。
+
 ## 构建与部署
 
 ```bash

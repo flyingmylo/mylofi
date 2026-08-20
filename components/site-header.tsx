@@ -8,12 +8,15 @@ const nav = [
   { href: '/tags/', label: '标签' },
   { href: '/search/', label: '搜索' },
   { href: '/about/', label: '关于' },
+  { href: '/playground/', label: '游乐场' },
 ]
 
-export function SiteHeader() {
+export function SiteHeader({ compact = false }: { compact?: boolean }) {
   return (
     <header className="sticky top-0 z-40 bg-paper/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 w-full max-w-2xl items-center justify-between px-6">
+      <div
+        className={`mx-auto flex ${compact ? 'h-14' : 'h-16'} w-full max-w-2xl items-center justify-between px-6`}
+      >
         <Link
           href="/"
           className="font-mono text-sm font-bold tracking-tight transition-colors hover:text-accent"
