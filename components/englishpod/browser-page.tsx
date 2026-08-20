@@ -8,6 +8,7 @@ import {
   getGroupRange,
 } from '@/lib/englishpod'
 import { EpisodeBrowser } from './episode-browser'
+import { CheckinButton } from './checkin-button'
 
 /** Englishpod 分组浏览页主体：分组 tabs + 当前组列表 + 翻组导航 */
 export function EnglishpodBrowserPage({ group }: { group: number }) {
@@ -32,9 +33,12 @@ export function EnglishpodBrowserPage({ group }: { group: number }) {
         <p className="mt-4 text-sm leading-relaxed text-muted">
           EnglishPod 播客 365 期档案：对话、词汇要点与播客全文。
         </p>
-        <p className="mt-3 font-mono text-[11px] tracking-wide text-muted">
-          {total} EPISODES · {categoryCount} CATEGORIES
-        </p>
+        <div className="mt-3 flex items-center justify-between">
+          <p className="font-mono text-[11px] tracking-wide text-muted">
+            {total} EPISODES · {categoryCount} CATEGORIES
+          </p>
+          <CheckinButton total={total} />
+        </div>
       </header>
 
       <EpisodeBrowser episodes={episodes} groups={groups} total={total} />

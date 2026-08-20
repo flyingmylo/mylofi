@@ -63,7 +63,7 @@ export function EpisodeView({ no, dialogue, keyVocab, suppVocab }: Props) {
             type="button"
             onClick={() => setTab(t.id)}
             aria-current={tab === t.id ? 'true' : undefined}
-            className={`-mb-px border-b-2 pb-2.5 font-mono text-xs transition-colors ${
+            className={`-mb-px cursor-pointer border-b-2 pb-2.5 font-mono text-xs transition-colors ${
               tab === t.id
                 ? 'border-accent text-ink'
                 : 'border-transparent text-muted hover:text-ink'
