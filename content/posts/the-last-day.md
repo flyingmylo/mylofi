@@ -1,9 +1,9 @@
 ---
 date: '2026-08-21T18:10:00+08:00'
 draft: false
-title: '周五的福利，抢先周末一步，如期而至。”'
+title: '周五的限时福利，这一天还是如期地来了'
 showTags: true
-tags: [' 随笔']
+tags: ['随笔']
 slug: "the-last-day"
 ---
 
