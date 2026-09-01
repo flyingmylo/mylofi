@@ -2,7 +2,6 @@ import { getAllPosts } from '@/lib/posts'
 import { PostCard } from '@/components/post-card'
 import { FeatureCard } from '@/components/feature-card'
 import { NowSpinning } from '@/components/now-spinning'
-import { NowReading } from '@/components/now-reading'
 import { NextGig } from '@/components/next-gig'
 
 /** 首页：刊物式网格——头条大卡 + 双栏曲目 + 右侧状态栏（正在转/正在读） */
@@ -31,7 +30,6 @@ export default function HomePage() {
       </div>
       <aside className="flex flex-col gap-6 self-start lg:sticky lg:top-24">
         <NowSpinning />
-        <NowReading />
         <NextGig />
       </aside>
     </div>
