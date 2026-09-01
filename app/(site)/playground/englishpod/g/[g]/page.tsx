@@ -24,5 +24,9 @@ export default async function EnglishpodGroupPage({ params }: Params) {
   const { g } = await params
   const group = Number(g)
   if (!Number.isInteger(group) || group < 2 || group > getGroupCount()) notFound()
-  return <EnglishpodBrowserPage group={group} />
+  return (
+    <div className="mx-auto max-w-3xl">
+      <EnglishpodBrowserPage group={group} />
+    </div>
+  )
 }

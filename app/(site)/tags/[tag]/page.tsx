@@ -22,7 +22,7 @@ export default async function TagPage({ params }: Params) {
   if (posts.length === 0) notFound()
 
   return (
-    <div>
+    <div className="mx-auto max-w-3xl">
       <p className="font-mono text-[11px] text-muted">
         <Link href="/tags/" className="transition-colors hover:text-accent">
           标签
@@ -35,7 +35,7 @@ export default async function TagPage({ params }: Params) {
           {posts.length} 篇
         </span>
       </h1>
-      <div className="mt-8 flex flex-col divide-y divide-line/70 border-y border-line/70">
+      <div className="mt-8 grid gap-4 sm:grid-cols-2">
         {posts.map((post) => (
           <PostCard key={post.slug} post={post} />
         ))}

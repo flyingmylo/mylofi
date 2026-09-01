@@ -7,6 +7,7 @@ import { lofiRadio } from '@/lib/lofi'
 /**
  * 右下角 lofi 迷你电台：唱片圆钮，点击播放/暂停，单曲循环。
  * 挂在根布局上，客户端路由跳转不卸载，跨页面音乐不中断。
+ * 播放态经 window 事件广播（lofi:change），页脚按钮等外部入口经 lofi:toggle 遥控。
  */
 export function LofiRadio() {
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -18,12 +19,28 @@ export function LofiRadio() {
     setLate(new Date().getHours() >= 22)
   }, [])
 
+  const play = () => void audioRef.current?.play().catch(() => {}) // Edge:自动播放策略拦截时静默失败，再点一次即可
+  const pause = () => audioRef.current?.pause()
+
   const toggle = () => {
     const a = audioRef.current
     if (!a) return
-    if (a.paused) void a.play().catch(() => {}) // Edge:自动播放策略拦截时静默失败，再点一次即可
-    else a.pause()
+    if (a.paused) play()
+    else pause()
   }
+
+  // 外部遥控（页脚播放按钮）
+  useEffect(() => {
+    const onToggle = () => {
+      const a = audioRef.current
+      if (!a) return
+      if (a.paused) play()
+      else pause()
+    }
+    window.addEventListener('lofi:toggle', onToggle)
+    return () => window.removeEventListener('lofi:toggle', onToggle)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="fixed right-5 bottom-5 z-50 pb-[env(safe-area-inset-bottom)]">
@@ -32,8 +49,14 @@ export function LofiRadio() {
         src={lofiRadio.src}
         loop
         preload="none"
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
+        onPlay={() => {
+          setPlaying(true)
+          window.dispatchEvent(new CustomEvent('lofi:change', { detail: { playing: true } }))
+        }}
+        onPause={() => {
+          setPlaying(false)
+          window.dispatchEvent(new CustomEvent('lofi:change', { detail: { playing: false } }))
+        }}
       />
       <button
         type="button"

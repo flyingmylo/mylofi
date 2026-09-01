@@ -1,20 +1,14 @@
-import { getAllPosts, type PostMeta } from '@/lib/posts'
+import { getAllPosts } from '@/lib/posts'
 import { PostCard } from '@/components/post-card'
+import { FeatureCard } from '@/components/feature-card'
+import { NowSpinning } from '@/components/now-spinning'
+import { NowReading } from '@/components/now-reading'
 
-function groupByYear(posts: PostMeta[]): [string, PostMeta[]][] {
-  const map = new Map<string, PostMeta[]>()
-  for (const post of posts) {
-    const year = post.date.slice(0, 4) || '未注明日期'
-    if (!map.has(year)) map.set(year, [])
-    map.get(year)!.push(post)
-  }
-  return [...map.entries()].sort((a, b) => (a[0] < b[0] ? 1 : -1))
-}
-
+/** 首页：刊物式网格——头条大卡 + 双栏曲目 + 右侧状态栏（正在转/正在读） */
 export default function HomePage() {
-  const groups = groupByYear(getAllPosts())
+  const posts = getAllPosts()
 
-  if (groups.length === 0) {
+  if (posts.length === 0) {
     return (
       <p className="text-muted">
         还没有文章，去 <code>content/posts/</code> 写一篇吧。
@@ -22,18 +16,22 @@ export default function HomePage() {
     )
   }
 
+  const [feature, ...rest] = posts
+
   return (
-    <div className="flex flex-col gap-14">
-      {groups.map(([year, posts]) => (
-        <section key={year}>
-          <h2 className="font-serif text-lg text-muted italic">{year}</h2>
-          <div className="mt-3 flex flex-col divide-y divide-line/70 border-y border-line/70">
-            {posts.map((post) => (
-              <PostCard key={post.slug} post={post} />
-            ))}
-          </div>
-        </section>
-      ))}
+    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="min-w-0">
+        <FeatureCard post={feature} />
+        <div className="grid gap-4 sm:grid-cols-2">
+          {rest.map((post) => (
+            <PostCard key={post.slug} post={post} />
+          ))}
+        </div>
+      </div>
+      <aside className="flex flex-col gap-6 self-start lg:sticky lg:top-24">
+        <NowSpinning />
+        <NowReading />
+      </aside>
     </div>
   )
 }

@@ -8,7 +8,7 @@ export default function SiteLayout({
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-full max-w-2xl flex-1 px-6 pt-16 pb-24 sm:pt-24">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-6 pt-16 pb-24 sm:pt-20">
         {children}
       </main>
       <SiteFooter />

@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: '关于' }
 
 export default function AboutPage() {
   return (
-    <div className="prose max-w-none prose-headings:tracking-tight prose-a:underline-offset-4 prose-blockquote:font-serif prose-blockquote:not-italic">
+    <div className="prose mx-auto max-w-2xl prose-headings:tracking-tight prose-a:underline-offset-4 prose-blockquote:font-serif prose-blockquote:not-italic">
       <h1>关于</h1>
       <blockquote>
         <p>A CHAMPAGNE SUPERNOVA IN THE SKY :D</p>

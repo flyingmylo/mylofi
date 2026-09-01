@@ -27,7 +27,7 @@ export default async function PostPage({ params }: Params) {
   if (!post) notFound()
 
   return (
-    <div>
+    <div className="mx-auto max-w-2xl">
       <article data-pagefind-body>
         <header className="mb-14">
           <h1 className="font-serif text-3xl leading-snug font-semibold tracking-tight sm:text-[2.5rem] sm:leading-tight">

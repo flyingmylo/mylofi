@@ -8,7 +8,7 @@ export default function TagsPage() {
   const tags = getAllTags()
 
   return (
-    <div>
+    <div className="mx-auto max-w-2xl">
       <h1 className="font-serif text-3xl font-semibold tracking-tight">标签</h1>
       {tags.length === 0 ? (
         <p className="mt-8 text-muted">还没有标签。</p>

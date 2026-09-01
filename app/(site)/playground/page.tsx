@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: '游乐场' }
 
 export default function PlaygroundPage() {
   return (
-    <div>
+    <div className="mx-auto max-w-3xl">
       <h1 className="font-serif text-3xl font-semibold tracking-tight">游乐场</h1>
       <p className="mt-4 text-sm text-muted">一些自己写着玩的小工具。</p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2">

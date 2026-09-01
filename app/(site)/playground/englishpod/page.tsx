@@ -4,5 +4,9 @@ import { EnglishpodBrowserPage } from '@/components/englishpod/browser-page'
 export const metadata: Metadata = { title: 'Englishpod' }
 
 export default function EnglishpodPage() {
-  return <EnglishpodBrowserPage group={1} />
+  return (
+    <div className="mx-auto max-w-3xl">
+      <EnglishpodBrowserPage group={1} />
+    </div>
+  )
 }
