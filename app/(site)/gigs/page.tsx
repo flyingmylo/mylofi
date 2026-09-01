@@ -20,8 +20,6 @@ export default function GigsPage() {
           </span>
         )}
       </div>
-      <p className="mt-4 text-sm text-muted">撕下来的不是票，是那一晚的自己。</p>
-
       {gigs.length === 0 ? (
         <p className="mt-12 text-sm text-muted">
           还没有票根。往 <code>content/gigs/</code> 里添一场演出，它就会贴在这面墙上。
