@@ -1,37 +1,38 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
 import { tools } from '@/lib/playground'
+import { LofiPedal, Pedal } from '@/components/pedal'
 
 export const metadata: Metadata = { title: '游乐场' }
 
+/** 游乐场：踏板板——每个工具一块踏板，信号链展示当前板面 */
 export default function PlaygroundPage() {
+  const chain = ['INPUT', ...tools.map((t) => t.name), 'LO-FI', 'OUTPUT']
+
   return (
-    <div className="mx-auto max-w-3xl">
-      <h1 className="font-serif text-3xl font-semibold tracking-tight">游乐场</h1>
-      <p className="mt-4 text-sm text-muted">一些自己写着玩的小工具。</p>
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+    <div className="mx-auto max-w-4xl">
+      <h1 className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted">
+        Playground · 自用小工具集
+      </h1>
+      <p className="mt-4 text-sm text-muted">
+        每个工具是一块踏板：踩下去，开始工作。新工具 = 新踏板。
+      </p>
+
+      <div className="mt-12 flex flex-wrap justify-center gap-5 sm:gap-6">
         {tools.map((tool) => (
-          <Link
+          <Pedal
             key={tool.slug}
+            name={tool.name}
+            sub={tool.description}
+            counter={tool.counter}
             href={`/playground/${tool.slug}/`}
-            className="group rounded-lg border border-line/70 p-6 transition-colors hover:border-accent/60"
-          >
-            <div className="flex items-start justify-between gap-4">
-              <h2 className="font-serif text-lg leading-snug transition-colors duration-200 group-hover:text-accent">
-                {tool.name}
-              </h2>
-              <ArrowRight
-                size={15}
-                className="mt-1 shrink-0 text-muted transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-accent"
-              />
-            </div>
-            <p className="mt-2.5 text-sm leading-relaxed text-muted">
-              {tool.description}
-            </p>
-          </Link>
+          />
         ))}
+        <LofiPedal />
       </div>
+
+      <p className="mt-14 text-center font-mono text-[11px] tracking-[0.18em] text-muted">
+        {chain.join(' → ')}
+      </p>
     </div>
   )
 }
