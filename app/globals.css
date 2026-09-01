@@ -210,6 +210,21 @@ body {
   content: none;
 }
 
+/* 文章页（.prose-track）h2 自动音轨编号：01 · 02 · … */
+.prose-track {
+  counter-reset: track;
+}
+.prose-track > h2 {
+  counter-increment: track;
+}
+.prose-track > h2::before {
+  content: counter(track, decimal-leading-zero) ' · ';
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.72em;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
 /* ===== Pagefind 搜索 UI 跟随主题 ===== */
 :root {
   --pagefind-ui-primary: var(--accent);
