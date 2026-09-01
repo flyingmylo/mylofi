@@ -39,7 +39,6 @@ export function LofiRadio() {
     }
     window.addEventListener('lofi:toggle', onToggle)
     return () => window.removeEventListener('lofi:toggle', onToggle)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

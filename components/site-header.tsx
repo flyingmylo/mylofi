@@ -9,6 +9,7 @@ import { ThemeToggle } from '@/components/theme-toggle'
 const nav = [
   { href: '/', label: '文章' },
   { href: '/playground/', label: '游乐场' },
+  { href: '/gigs/', label: '演出' },
   { href: '/about/', label: '关于' },
 ]
 
