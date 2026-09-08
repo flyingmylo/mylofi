@@ -23,7 +23,7 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
           © 2019–{new Date().getFullYear()} {site.name.toLowerCase()}.fun
         </span>
         <LofiFooterButton />
-        <span>next.js × cloudflare pages · 33⅓ rpm</span>
+        <span>next.js × cloudflare pages</span>
       </div>
     </footer>
   )
