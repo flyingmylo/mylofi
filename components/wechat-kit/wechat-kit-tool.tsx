@@ -1,16 +1,16 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { FormatPanel } from './format-panel'
-import { CoverPanel } from './cover-panel'
-import { ArrowLeft, FileText, Image as ImageIcon } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 
-type Tab = 'format' | 'cover'
-
+/**
+ * WeChat Kit 微信公众号排版工作台
+ * 
+ * Why: 纯前端无服务端运行，将 Markdown 实时转换为符合微信公众平台内联样式（inline style）标准的富文本 HTML，
+ *      并支持一键写入系统富文本剪贴板直接粘贴发布。
+ */
 export function WechatKitTool() {
-  const [activeTab, setActiveTab] = useState<Tab>('format')
-
   return (
     <div className="mx-auto max-w-5xl">
       {/* 顶部导航与面包屑 */}
@@ -23,7 +23,7 @@ export function WechatKitTool() {
           <span>PLAYGROUND · 游乐场</span>
         </Link>
         <span className="text-muted tracking-widest text-[11px] uppercase">
-          WECHAT-KIT · 工作台
+          WECHAT-KIT · 公众号排版工作台
         </span>
       </div>
 
@@ -34,42 +34,14 @@ export function WechatKitTool() {
             WECHAT-KIT
           </h1>
           <p className="mt-2 text-sm text-muted">
-            微信公众号一站式排版与高清矢量封面生成工具箱 · 纯浏览器端渲染与导出
+            微信公众号主题化排版利器 · 纯内联样式与双黄金主题色 · 原生兼容富文本剪贴板
           </p>
-        </div>
-
-        {/* 双选项卡切换 */}
-        <div className="flex rounded-xl border border-line bg-paper p-1 font-mono text-xs card-shadow">
-          <button
-            type="button"
-            onClick={() => setActiveTab('format')}
-            className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
-              activeTab === 'format'
-                ? 'bg-ink text-paper font-medium shadow-xs'
-                : 'text-muted hover:text-ink'
-            }`}
-          >
-            <FileText className="size-3.5" />
-            <span>正文排版</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('cover')}
-            className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
-              activeTab === 'cover'
-                ? 'bg-ink text-paper font-medium shadow-xs'
-                : 'text-muted hover:text-ink'
-            }`}
-          >
-            <ImageIcon className="size-3.5" />
-            <span>封面生成</span>
-          </button>
         </div>
       </div>
 
-      {/* 主面板内容 */}
+      {/* 主面板：正文排版工作台 */}
       <div className="mt-8">
-        {activeTab === 'format' ? <FormatPanel /> : <CoverPanel />}
+        <FormatPanel />
       </div>
     </div>
   )

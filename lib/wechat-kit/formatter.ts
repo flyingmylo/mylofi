@@ -48,9 +48,11 @@ export function buildWechatStyles(theme: ThemePreset = 'navy') {
     p: `margin:1.2em 8px;text-align:justify;line-height:1.75;font-size:15px;letter-spacing:0.1em;color:rgb(34,34,34);overflow-wrap:break-word;font-family:${FONT};`,
     strong: `font-weight:bold;color:${A};font-family:${FONT};`,
     em: `font-style:italic;color:rgb(102,102,102);font-family:${FONT};`,
-    blockquote: `margin:1.5em 8px 2em;padding:10px 12px;font-size:14px;color:rgb(63,63,63);background:linear-gradient(135deg,${rgbaStr(accent, 0.05)},${rgbaStr(accent, 0.02)});border-left:3px solid ${A};border-radius:0 8px 8px 0;line-height:1.8;font-family:${FONT};`,
+    // 引用块：纯色浅底微染 + 左实线边框 + 圆角（Why: 严禁使用渐变，避免在微信移动端或特定深色模式下偏色或对比度失效）
+    blockquote: `margin:1.5em 8px 2em;padding:10px 12px;font-size:14px;color:rgb(63,63,63);background:${rgbaStr(accent, 0.04)};border-left:3px solid ${A};border-radius:0 6px 6px 0;line-height:1.8;font-family:${FONT};`,
     bq_p: `margin:0;text-align:left;line-height:1.75;font-size:1em;display:block;color:rgb(63,63,63);font-family:${FONT};`,
-    hr: `border:none;height:1px;margin:2em 0px;background:linear-gradient(to right,${rgbaStr(accent, 0)},${rgbaStr(accent, 0.6)},${rgbaStr(accent, 0)});`,
+    // 分隔线：纯色细线（Why: 微信编辑器剥离部分渐变滤镜导致黑线或消失，纯色 1px 边框最稳定）
+    hr: `border:none;border-top:1px solid ${rgbaStr(accent, 0.2)};height:0px;margin:2em 8px;`,
     ul: `list-style:none;margin:0em 8px 1.5em;padding:0px;text-align:left;line-height:1.75;font-size:14px;color:rgb(63,63,63);font-family:${FONT};`,
     ol: `list-style:none;margin:0em 8px 1.5em;padding:0px;text-align:left;line-height:1.75;font-size:14px;color:rgb(63,63,63);font-family:${FONT};`,
     li: `list-style:none;margin:0.5em 0px;padding:0px;text-align:left;line-height:1.75;font-size:14px;color:rgb(63,63,63);font-family:${FONT};`,
@@ -111,6 +113,98 @@ function parseInline(text: string, styles: ReturnType<typeof buildWechatStyles>)
 }
 
 /**
+ * 渲染微信原生高兼容流式步骤卡片组
+ * 
+ * Why: 移动端宽度有限，传统 ASCII 字符框图极易换行折断。
+ *      改为微信原生 steps 卡片流（纯 section 微染浅底 + 左强调边 + 圆角 + 居中流向指示），
+ *      彻底杜绝横滑割裂，达成 100% 移动端自适应。
+ * Edge: 兼容带有 (流向注解) 的箭头行、[标题] 描述、**标题**：描述及普通中英文冒号分割的步骤。
+ * How: 纯行内 CSS 注入，通过 section 包裹，微信富文本剪贴板原生兼容。
+ */
+function renderFlowBlock(
+  lines: string[],
+  theme: ThemePreset,
+  styles: ReturnType<typeof buildWechatStyles>
+): string {
+  const accent = THEME_PRESETS[theme].rgb
+  const A = rgbStr(accent)
+  const bgTint = rgbaStr(accent, 0.04)
+  const cards: string[] = []
+
+  for (const raw of lines) {
+    const ln = raw.trim()
+    if (!ln) continue
+
+    // 1. 流向指示行（包含下指箭头、流程引导符或括号注释）
+    const isArrow =
+      ['↓', '▼', '->', '➔', '│', '└', '├'].some((p) => ln.startsWith(p)) ||
+      (ln.startsWith('(') && ln.endsWith(')')) ||
+      ['↓', '▼', '➔', '->'].some((p) => ln.includes(p))
+
+    if (isArrow) {
+      const commentMatch = ln.match(/\((.*?)\)/)
+      let commentText = commentMatch ? commentMatch[1] : ''
+      if (!commentText) {
+        const clean = ln.replace(/[↓▼➔\->| ─└├]+/g, '').trim()
+        if (clean) commentText = clean
+      }
+
+      if (commentText) {
+        cards.push(
+          `<div style="text-align:center;color:${A};font-size:14px;line-height:1.3;margin:8px 0;font-weight:600;">` +
+            `↓ <span style="font-size:12px;font-weight:normal;color:rgb(120,120,120);background:${rgbaStr(
+              accent,
+              0.06
+            )};padding:2px 8px;border-radius:10px;margin-left:4px;display:inline-block;">${escapeHtml(
+              commentText
+            )}</span></div>`
+        )
+      } else {
+        cards.push(
+          `<div style="text-align:center;color:${A};font-size:15px;line-height:1.2;margin:6px 0;font-weight:600;">↓</div>`
+        )
+      }
+      continue
+    }
+
+    // 2. 步骤卡片解析："[标题] 描述" 或 "**标题**：描述" 或 "标题: 描述"
+    let cTitle = ln
+    let cDesc = ''
+
+    const bracketMatch = ln.match(/^\[(.*?)\]\s*(.*)$/)
+    const boldMatch = ln.match(/^\*\*(.*?)\*\*[：:]?\s*(.*)$/)
+
+    if (bracketMatch) {
+      cTitle = bracketMatch[1].trim()
+      cDesc = bracketMatch[2].trim()
+    } else if (boldMatch) {
+      cTitle = boldMatch[1].trim()
+      cDesc = boldMatch[2].trim()
+    } else if (ln.includes('：') || ln.includes(': ')) {
+      const sep = ln.includes('：') ? '：' : ': '
+      const parts = ln.split(sep)
+      cTitle = parts[0].trim()
+      cDesc = parts.slice(1).join(sep).trim()
+    }
+
+    const titleParsed = parseInline(cTitle, styles)
+    const descParsed = cDesc ? parseInline(cDesc, styles) : ''
+    const descBlock = descParsed
+      ? `<div style="color:rgb(63,63,63);font-size:13.5px;line-height:1.65;margin-top:5px;text-align:left;">${descParsed}</div>`
+      : ''
+
+    cards.push(
+      `<section style="background:${bgTint};border-left:3.5px solid ${A};border-radius:0 8px 8px 0;padding:11px 14px;margin:5px 0;box-sizing:border-box;box-shadow:rgba(0,0,0,0.02) 0px 1px 3px;">` +
+        `<div style="font-weight:bold;color:${A};font-size:14px;line-height:1.4;text-align:left;">${titleParsed}</div>` +
+        `${descBlock}` +
+      `</section>`
+    )
+  }
+
+  return `<section style="margin:1.5em 8px;padding:0;box-sizing:border-box;">${cards.join('')}</section>`
+}
+
+/**
  * 将输入的 Markdown 转换成完整的微信公众号 Section HTML 片段
  */
 export function convertMarkdownToWechat(mdText: string, theme: ThemePreset = 'navy'): string {
@@ -138,10 +232,11 @@ export function convertMarkdownToWechat(mdText: string, theme: ThemePreset = 'na
       continue
     }
 
-    // 代码块
+    // 代码块与 flow 流程图语法块拦截
     const fenceM = line.match(/^(```|~~~)(.*)$/)
     if (fenceM) {
       flushPara()
+      const langTag = fenceM[2].trim().toLowerCase()
       const codeLines: string[] = []
       i++
       while (i < n && !lines[i].match(/^(```|~~~)/)) {
@@ -149,10 +244,16 @@ export function convertMarkdownToWechat(mdText: string, theme: ThemePreset = 'na
         i++
       }
       i++ // 跳过闭合 ```
-      const codeEscaped = escapeHtml(codeLines.join('\n'))
-      out.push(
-        `<pre style="${styles.pre}"><code style="${styles.pre_code}">${codeEscaped}</code></pre>`
-      )
+
+      // 识别流式步骤图语法：flow, steps, cards, workflow
+      if (['flow', 'steps', 'cards', 'workflow'].includes(langTag)) {
+        out.push(renderFlowBlock(codeLines, theme, styles))
+      } else {
+        const codeEscaped = escapeHtml(codeLines.join('\n'))
+        out.push(
+          `<pre style="${styles.pre}"><code style="${styles.pre_code}">${codeEscaped}</code></pre>`
+        )
+      }
       continue
     }
 

@@ -14,6 +14,6 @@ export const tools: PlaygroundTool[] = [
   {
     slug: 'wechat-kit',
     name: 'WECHAT-KIT',
-    description: '微信公众号排版与高清矢量封面生成器',
+    description: '微信公众号内联排版与富文本一键直贴工具箱',
   },
 ]
